@@ -1,0 +1,6 @@
+.DS_Store
+target/
+**/target/
+
+rust-notes/*
+!rust-notes/README.md
