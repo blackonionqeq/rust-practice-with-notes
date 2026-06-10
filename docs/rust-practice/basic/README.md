@@ -49,6 +49,8 @@ Known old-to-new basic topic order from the notes:
 - `11_1_trait_default`: `docs/rust-practice/basic/exercises/11_1_trait_default.md`
 - `12_result_parse`: `docs/rust-practice/basic/exercises/12_result_parse.md`
 - `12_1_result_question_mark`: `docs/rust-practice/basic/exercises/12_1_result_question_mark.md`
+- `12_2_from_conversion`: `docs/rust-practice/basic/exercises/12_2_from_conversion.md`
+- `12_3_associated_type_parser`: `docs/rust-practice/basic/exercises/12_3_associated_type_parser.md`
 - `13_lifetime_longest`: `docs/rust-practice/basic/exercises/13_lifetime_longest.md`
 - `14_module_shop`: `docs/rust-practice/basic/exercises/14_module_shop.md`
 

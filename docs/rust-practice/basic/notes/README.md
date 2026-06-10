@@ -25,5 +25,7 @@
 - `11_1_trait_default`: [11_1_trait_default.md](11_1_trait_default.md)
 - `12_result_parse`: [12_result_parse.md](12_result_parse.md)
 - `12_1_result_question_mark`: [12_1_result_question_mark.md](12_1_result_question_mark.md)
+- `12_2_from_conversion`: [12_2_from_conversion.md](12_2_from_conversion.md)
+- `12_3_associated_type_parser`: [12_3_associated_type_parser.md](12_3_associated_type_parser.md)
 - `13_lifetime_longest`: [13_lifetime_longest.md](13_lifetime_longest.md)
 - `14_module_shop`: [14_module_shop.md](14_module_shop.md)
