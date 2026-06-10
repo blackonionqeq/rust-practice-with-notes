@@ -86,6 +86,13 @@ where
         .map(|(word, count)| (word.clone(), *count))
         .collect::<Vec<_>>();
 
+    // `sort_by` 接收一个比较用的 closure：`|a, b| ...`。
+    // 这里 `a` 和 `b` 都是 `&(String, usize)`，也就是 result 里的两个元素引用。
+    // Rust 访问元组字段用 `.0`、`.1`，不是 JS 那种 `[0]`、`[1]`。
+    // 因为元组更像“没有字段名的 struct”；`[]` 下标主要给数组、slice、Vec 用。
+    // closure 需要返回 `Ordering`，告诉排序算法 a 应该排在 b 前、后，还是相等。
+    // `b.1.cmp(&a.1)` 是按 count 倒序排；如果 count 相同，
+    // `.then(a.0.cmp(&b.0))` 再按 word 正序排，保证输出稳定、可预测。
     result.sort_by(|a, b| b.1.cmp(&a.1).then(a.0.cmp(&b.0)));
     result
 }
@@ -107,6 +114,9 @@ fn run(path: &str) -> Result<(), AppError> {
     // 你原来这里直接 debug 打印了整个 Vec。
     // 题目要求固定输出 `repeated words:`，然后逐行打印 `word: count`。
     println!("repeated words:");
+    // `repeated_words` 的类型是 `Vec<(String, usize)>`，里面每一项都是一个二元组。
+    // `for (word, count) in repeated_words` 这里的 `(word, count)` 是解构模式：
+    // 循环每取出一个 `(String, usize)`，就把第 1 个值绑定到 word，第 2 个值绑定到 count。
     for (word, count) in repeated_words {
         println!("{}: {}", word, count);
     }
