@@ -122,7 +122,7 @@ where
 
 Return words that match `keep`, sorted by count descending, then word ascending.
 
-In `main`, use a closure to keep words whose count is at least `2`.
+In `run`, call `top_words` with a closure to keep words whose count is at least `2`.
 
 ```rust
 fn run(path: &str) -> Result<(), AppError>
