@@ -1,4 +1,5 @@
 pub mod error;
+// 这里的pub 公开stats路径，stats.rs里的 pub 公开方法等内容，想要外部访问，两者缺一不可
 pub mod stats;
 pub mod words;
 
