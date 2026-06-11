@@ -7,6 +7,7 @@ pub struct TextStats {
     pub unique_words: usize,
 }
 
+// 注意这里是 crate，代表lib crate；这与main.rs 里要用 package name（text_stats_refactor::）来访问有区别。因为这是两个 crate， lib crate用内部的直接用crate，main 用 lib 的相当于外部访问了，要带上包名
 pub fn stats(text: &str) -> Result<TextStats, crate::AppError> {
     if text.trim().is_empty() {
         return Err(crate::AppError::EmptyInput);
