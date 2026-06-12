@@ -11,7 +11,8 @@ Outline only. Exercises, notes, and projects will be filled in later.
 ## Relationship to Earlier Sections
 
 - Basic: learn the language fundamentals.
-- Advanced: write practical Rust programs and small projects.
+- Advanced: learn core intermediate Rust mechanisms and small standard-library projects.
+- Advanced Extra: practice real project skills, ecosystem crates, testing, concurrency, and application-level async.
 - Expert: understand sharp edges, unsafe boundaries, and lower-level abstractions.
 
 ## Study Rules

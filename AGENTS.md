@@ -12,17 +12,20 @@ Each exercise has its own file under:
 
 - `docs/rust-practice/basic/exercises/`
 - `docs/rust-practice/advanced/exercises/`
+- `docs/rust-practice/advanced-extra/exercises/`
 - `docs/rust-practice/expert/exercises/`
 
 Stage projects are under:
 
 - `docs/rust-practice/advanced/projects/`
+- `docs/rust-practice/advanced-extra/projects/`
 - `docs/rust-practice/expert/projects/`
 
 Runnable Cargo practice projects are under:
 
 - `practice/basic/`
 - `practice/advanced/`
+- `practice/advanced-extra/`
 - `practice/expert/`
 
 The user's notes are exported under:
@@ -47,6 +50,7 @@ Practice directories use numeric prefixes for review order:
 - `02_try_shadowing`
 - `03_string_lab`
 - `15_vec_hashmap_inventory`
+- `33_cli_args_pathbuf`
 - next exercise is tracked in `docs/rust-practice/README.md`
 
 Cargo package names must not start with digits. Use a valid package name in `Cargo.toml`, for example:
@@ -68,8 +72,14 @@ For advanced projects, continue the numeric sequence:
 cargo new practice/advanced/15_vec_hashmap_inventory --name vec_hashmap_inventory
 ```
 
+For advanced-extra projects, continue the numeric sequence after advanced:
+
+```bash
+cargo new practice/advanced-extra/33_cli_args_pathbuf --name cli_args_pathbuf
+```
+
 For expert projects, use the expert directory:
 
 ```bash
-cargo new practice/expert/33_static_dst --name static_dst
+cargo new practice/expert/58_static_dst --name static_dst
 ```

@@ -118,7 +118,22 @@ Goal: understand Rust's common ownership tools for recursive structures, shared 
 
 ## Next Section
 
-Advanced is followed by Expert:
+Advanced is followed by Advanced Extra:
+
+- `docs/rust-practice/advanced-extra/README.md`
+
+Advanced Extra topics include:
+
+- real CLI and streaming IO
+- practical Cargo ecosystem usage
+- `thiserror` / `anyhow`
+- `serde` / JSON config
+- integration tests and doc tests
+- workspaces and feature flags
+- message-passing concurrency
+- application-level async with Tokio
+
+After Advanced Extra, continue to Expert:
 
 - `docs/rust-practice/expert/README.md`
 
