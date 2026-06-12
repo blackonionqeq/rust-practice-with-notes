@@ -45,6 +45,9 @@ fn main() {
     add_child(&root, &leaf);
     println!("parent_name: {:?}", parent_name(&leaf));
 
+    // strong_count 表示有多少个 Rc 正在强拥有 root；归零时 Node 会被自动释放。
+    // weak_count 表示有多少个 Weak 指向 root；Weak 不阻止 Node 被释放。
+    // 这里主要用于观察引用关系，确认 leaf.parent 没有形成强引用环。
     println!("Rc::strong_count: {}", Rc::strong_count(&root));
     println!("Rc::weak_count: {}", Rc::weak_count(&root))
 }
