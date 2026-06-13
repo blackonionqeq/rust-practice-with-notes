@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "id": "rust-advanced-extra-notes",
+  "title": "Rust 进阶补充 · 学习笔记",
+  "description": "rust-practice-with-notes 的 advanced-extra 章节(练习 33–56)补充笔记,涵盖 CLI 参数、错误处理(thiserror/anyhow)、serde 配置、测试、workspace、feature flags、多线程与 tokio 异步。共 20 篇。",
+  "version": "2026-06-13",
+  "articles": [
+    { "id": "33", "title": "33 CLI Args and PathBuf", "url": "33_cli_args_pathbuf.md" },
+    { "id": "34", "title": "34 Streaming Word Count", "url": "34_streaming_word_count.md" },
+    { "id": "35", "title": "35 Environment Config", "url": "35_env_config.md" },
+    { "id": "36", "title": "36 Clap Text Stats", "url": "36_clap_text_stats.md" },
+    { "id": "38", "title": "38 Thiserror App Error", "url": "38_thiserror_app_error.md" },
+    { "id": "39", "title": "39 Anyhow Context", "url": "39_anyhow_context.md" },
+    { "id": "40", "title": "40 Serde JSON Config", "url": "40_serde_json_config.md" },
+    { "id": "41", "title": "41 Dev Dependencies and Tempfile", "url": "41_dev_dependencies_tempfile.md" },
+    { "id": "43", "title": "43 Integration Tests", "url": "43_integration_tests.md" },
+    { "id": "44", "title": "44 Documentation Tests", "url": "44_doc_tests.md" },
+    { "id": "45", "title": "45 Workspace Basics", "url": "45_workspace_basics.md" },
+    { "id": "46", "title": "46 Feature Flags", "url": "46_feature_flags.md" },
+    { "id": "48", "title": "48 Thread Join Handles", "url": "48_thread_join_handles.md" },
+    { "id": "49", "title": "49 MPSC Worker Results", "url": "49_mpsc_worker_results.md" },
+    { "id": "50", "title": "50 RwLock Read Mostly", "url": "50_rwlock_read_mostly.md" },
+    { "id": "51", "title": "51 Lock Scope and Deadlock", "url": "51_lock_scope_deadlock.md" },
+    { "id": "53", "title": "53 Async Fn and Await", "url": "53_async_fn_await.md" },
+    { "id": "54", "title": "54 Tokio File Read", "url": "54_tokio_file_read.md" },
+    { "id": "55", "title": "55 Join and Try Join", "url": "55_join_try_join.md" },
+    { "id": "56", "title": "56 Timeout Basics", "url": "56_timeout_basics.md" }
+  ]
+}
