@@ -105,6 +105,77 @@ fn load_config() -> Result<Config, AppError> {
 
 没有 `#[from]`，你需要手写 `impl From<io::Error> for AppError { ... }`。
 
+### 本题的 stream 读取版本
+
+这题要求用 `BufReader` 按行读取，而不是一次性把整个文件读进内存。核心差异是：现在有两个地方可能产生 IO 错误：
+
+- `File::open(path)?`：打开文件失败。
+- `line?`：读取某一行时失败。
+
+示例结构：
+
+```rust
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+use std::path::Path;
+
+fn read_numbers(path: &Path) -> Result<Vec<i64>, AppError> {
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+    let mut numbers = Vec::new();
+
+    for line in reader.lines() {
+        let line = line?;
+        let trimmed = line.trim();
+
+        if trimmed.is_empty() {
+            continue;
+        }
+
+        let number = trimmed.parse::<i64>()?;
+        numbers.push(number);
+    }
+
+    if numbers.is_empty() {
+        return Err(AppError::InvalidInput("no numbers found".to_string()));
+    }
+
+    Ok(numbers)
+}
+```
+
+如果使用一次性读取，也可以写成下面这样，但这不是本题要求的 streaming 版本：
+
+```rust
+// 也可用 read_to_string 版：写法更短，但会一次性把整个文件读进内存。
+// fn read_numbers(path: &Path) -> Result<Vec<i64>, AppError> {
+//     let text = std::fs::read_to_string(path)?;
+//     let mut numbers = Vec::new();
+//
+//     for line in text.lines() {
+//         let trimmed = line.trim();
+//
+//         if trimmed.is_empty() {
+//             continue;
+//         }
+//
+//         let number = trimmed.parse::<i64>()?;
+//         numbers.push(number);
+//     }
+//
+//     if numbers.is_empty() {
+//         return Err(AppError::InvalidInput("no numbers found".to_string()));
+//     }
+//
+//     Ok(numbers)
+// }
+```
+
+注意这里的 `text.lines()` 和 `reader.lines()` 很容易混淆：
+
+- `text.lines()` 是在已经加载到内存里的字符串上切行，迭代项是 `&str`。
+- `reader.lines()` 是边读文件边产出行，迭代项是 `io::Result<String>`，所以循环里需要 `let line = line?;`。
+
 ### 结构体变体 vs 元组变体
 
 ```rust
@@ -148,12 +219,15 @@ Practice defining practical library errors with the `thiserror` crate.
 - 自定义错误类型让调用者可以 `match` 不同错误并采取不同策略。
 - `#[error("...")]` 格式化字符串就是用户看到的错误消息。
 - `#[from]` 让 `?` 运算符能自动转换错误类型。
+- `BufReader::lines()` 的每一行都是 `Result<String, io::Error>`，读取过程中仍然可能失败。
 - `thiserror` 是零成本抽象——不引入运行时开销。
 
 ## 常见坑
 
 - 在 `#[error]` 里写复杂逻辑（如函数调用），格式化字符串应该只做简单展示。
 - 忘记给变体加 `#[error(...)]`，编译器会报错但错误信息可能不太直观。
+- 把 `reader.lines()` 当成 `text.lines()` 用，忘记处理每一行的 `Result`。
+- 忘记 `use std::io::BufRead;`，导致 `.lines()` 方法不可用。
 - 在 binary 里也定义一堆自定义错误类型——binary 用 `anyhow` 就够了。
 - 混用 `thiserror` 和手动 `impl Display`，导致编译冲突。
 

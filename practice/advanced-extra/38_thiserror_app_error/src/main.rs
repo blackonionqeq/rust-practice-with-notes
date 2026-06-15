@@ -1,6 +1,9 @@
 use std::io::Error as IoError;
 use thiserror::Error;
 
+use std::fs::File;
+use std::io::{BufRead, BufReader};
+
 #[derive(Error, Debug)]
 pub enum AppError {
     // error 属性用于生成Display实现
@@ -17,10 +20,28 @@ pub enum AppError {
 }
 
 fn read_from_file(path: &str) -> Result<String, AppError> {
-    let content = std::fs::read_to_string(path).map_err(AppError::Io)?;
-    for line in content.lines() {
-        let num: i32 = line.parse::<i32>().map_err(AppError::Parse)?;
-        println!("Parsed number: {}", num);
+    // 直接读整个文件的版本比较简单，几行搞定：
+    // let content = std::fs::read_to_string(path).map_err(AppError::Io)?;
+    // for line in content.lines() {
+    //     let num: i32 = line.parse::<i32>().map_err(AppError::Parse)?;
+    //     println!("Parsed number: {}", num);
+    // }
+    // Ok(content)
+    //
+    // 但题目要用流
+    let file = File::open(path)?;
+    let reader = BufReader::new(file);
+    let mut content = String::new();
+
+    for line in reader.lines() {
+        // AppError::Parse 会自动转换为 AppError::Io 错误
+        let line = line?;
+        let trimmed = line.trim();
+        // 注意？只能用在返回Option或Result的地方
+        let number = trimmed.parse::<i32>()?;
+        println!("{number}");
+        content.push_str(&line);
+        content.push('\n');
     }
     Ok(content)
 }
