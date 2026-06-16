@@ -15,6 +15,7 @@ cargo new practice/advanced-extra/41_dev_dependencies_tempfile --name dev_depend
 ## Requirements
 
 - Add `tempfile` under `[dev-dependencies]`.
+  - CLI: `cargo add tempfile --dev`
 - Write a library function that counts lines in a file.
 - Add tests that create temporary files with sample content.
 - Verify empty, one-line, and multi-line files.

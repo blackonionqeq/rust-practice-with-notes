@@ -15,6 +15,14 @@ tempfile = "3"       # 开发依赖：只在测试和 bench 时编译
 cc = "1"             # 构建依赖：编译 build.rs 时需要
 ```
 
+用 CLI 添加开发依赖：
+
+```bash
+cargo add tempfile --dev
+```
+
+这会把 `tempfile` 写进 `[dev-dependencies]`，而不是 `[dependencies]`。
+
 关键区别：
 
 | 类型 | 什么时候编译 | 谁能用 | 发布时包含 |
