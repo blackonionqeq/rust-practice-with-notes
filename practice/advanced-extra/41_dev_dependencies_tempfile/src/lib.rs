@@ -22,6 +22,7 @@ mod tests {
     // }
 
     fn test_count_lines_helper(content: &str, count: usize) -> Result<()> {
+        // 要在一个文件里操作完，因为离开作用域后，tempfile就会drop了，拿不到内容了
         let mut tmp = NamedTempFile::new()?;
         // 别用writeln，会多一行
         // 这里用了{}会被转义，想保留语义，要加反斜杠：\{\}
