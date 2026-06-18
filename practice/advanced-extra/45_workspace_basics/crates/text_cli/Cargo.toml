@@ -1,0 +1,7 @@
+[package]
+name = "text_cli"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+text_core = { path = "../text_core" }
