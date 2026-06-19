@@ -1,0 +1,14 @@
+[package]
+name = "feature_flags"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+anyhow = "1.0.102"
+serde = { version = "1", features = ["derive"], optional = true }
+serde_json = { version = "1", optional = true }
+
+[features]
+default = []
+json = ["serde", "serde_json"]
+
