@@ -112,6 +112,10 @@ Goal: organize Rust code like a small real project, with public APIs, integratio
 
 Goal: expand from `Arc<Mutex<_>>` to practical thread ownership, message passing, read/write locks, and lock-scope discipline.
 
+Related guide:
+
+- `concurrency_choice`: `docs/rust-practice/advanced-extra/guides/concurrency_choice.md`
+
 ### Topics
 
 1. `thread::spawn`
@@ -141,6 +145,11 @@ Goal: expand from `Arc<Mutex<_>>` to practical thread ownership, message passing
 ## Stage X5: Async Basics
 
 Goal: learn application-level async Rust without diving into `Pin`, hand-written futures, or executor internals.
+
+Related guides:
+
+- `concurrency_choice`: `docs/rust-practice/advanced-extra/guides/concurrency_choice.md`
+- `async_boundary`: `docs/rust-practice/advanced-extra/guides/async_boundary.md`
 
 ### Topics
 
