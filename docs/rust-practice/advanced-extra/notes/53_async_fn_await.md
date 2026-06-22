@@ -64,6 +64,68 @@ tokio = { version = "1", features = ["macros", "rt-multi-thread", "time"] }
 
 `macros` 提供 `#[tokio::main]`，`rt-multi-thread` 提供多线程 runtime，`time` 提供 `sleep`。
 
+### Cargo feature 和 `use` 不是一回事
+
+Cargo feature 决定依赖 crate 的哪些可选能力会被**编译并公开**。它必须在
+`Cargo.toml` 中配置，或者通过 `cargo add --features` 启用。
+
+`use` 只把一个已经存在的名称引入当前代码的作用域，不能启用 Cargo feature。因此下面的写法不能替代 feature 配置：
+
+```rust
+// 这不会启用 Tokio 的 macros 或 runtime feature，而且本题也不需要这两个导入。
+use tokio::{macros, runtime};
+```
+
+使用 `#[tokio::main]` 时直接写属性宏即可：
+
+```rust
+#[tokio::main]
+async fn main() {
+    // ...
+}
+```
+
+### 用 `cargo add` 添加 Tokio 和 features
+
+推荐使用逗号分隔。整个 feature 列表会作为 `--features` 的一个参数传给 Cargo：
+
+```bash
+cargo add tokio --features macros,rt-multi-thread,time
+```
+
+也可以给空格分隔的列表加引号，或者重复使用 `-F`：
+
+```bash
+cargo add tokio --features "macros rt-multi-thread time"
+cargo add tokio -F macros -F rt-multi-thread -F time
+```
+
+下面这种写法有歧义，不要使用：
+
+```bash
+cargo add tokio --features macros rt-multi-thread time
+```
+
+命令行解析时，`--features` 只取得紧随其后的 `macros`；后面的
+`rt-multi-thread` 和 `time` 被当成了另外两个待添加的依赖。因为命令中出现了多个依赖，Cargo 无法判断 `macros` 属于谁，于是提示 feature 必须写成 `tokio/macros` 这样的限定形式。
+
+### 看懂本题的连锁报错
+
+缺少 `macros` feature 时，常见的两条错误是：
+
+```text
+error[E0433]: cannot find `main` in `tokio`
+error[E0752]: `main` function is not allowed to be `async`
+```
+
+它们通常是同一个根因引起的：
+
+1. `macros` 未启用，编译器找不到 `#[tokio::main]`。
+2. 属性宏没有把异步入口转换成由 Tokio runtime 驱动的普通入口。
+3. 编译器继续检查原始的 `async fn main`，于是又报告普通 `main` 不能是 async。
+
+因此应该先修复第一条错误，而不是分别处理两条错误。
+
 ---
 
 ## 本题覆盖
@@ -80,6 +142,8 @@ Practice the surface syntax of `async fn` and `.await`.
 ## 常见坑
 
 - 调用了 async 函数却忘了 `.await`，结果拿到的是 `Future` 而不是值。
+- 以为 `use tokio::{macros, runtime};` 能启用 Cargo feature；`use` 只影响名称解析。
+- 给 `cargo add --features` 传多个未加引号的空格参数，导致后面的 feature 被当成依赖名。
 - 在 async 任务里用 `std::thread::sleep` 阻塞了 runtime 的线程。
 - 没有 runtime 就直接 `.await`，运行时报错。
 - 把 async 的概念和 OS 线程混为一谈——async 任务是协作式调度的。
