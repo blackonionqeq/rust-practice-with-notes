@@ -1,0 +1,24 @@
+{
+  "schemaVersion": 1,
+  "id": "rust-advanced-notes",
+  "title": "Rust 进阶 · 学习笔记",
+  "description": "rust-practice-with-notes 的 advanced 章节（练习 15–31）补充笔记，涵盖集合、迭代器、闭包、错误处理、文件读写、泛型、trait、模块、测试、API 设计、智能指针与多线程。共 15 篇。",
+  "version": "2026-06-23",
+  "articles": [
+    { "id": "15", "title": "15 Vec HashMap Inventory", "url": "15_vec_hashmap_inventory.md" },
+    { "id": "16", "title": "16 Iterator Pipeline", "url": "16_iterator_pipeline.md" },
+    { "id": "17", "title": "17 Closure Filter", "url": "17_closure_filter.md" },
+    { "id": "18", "title": "18 Error From", "url": "18_error_from.md" },
+    { "id": "19", "title": "19 File Word Count", "url": "19_file_word_count.md" },
+    { "id": "21", "title": "21 Generics Bounds", "url": "21_generics_bounds.md" },
+    { "id": "22", "title": "22 Trait Objects", "url": "22_trait_objects.md" },
+    { "id": "23", "title": "23 Lib Modules", "url": "23_lib_modules.md" },
+    { "id": "24", "title": "24 Unit Tests", "url": "24_unit_tests.md" },
+    { "id": "25", "title": "25 API Design", "url": "25_api_design.md" },
+    { "id": "27", "title": "27 Box Recursive List", "url": "27_box_recursive_list.md" },
+    { "id": "28", "title": "28 Rc Shared Tags", "url": "28_rc_shared_tags.md" },
+    { "id": "29", "title": "29 Weak Parent Tree", "url": "29_weak_parent_tree.md" },
+    { "id": "30", "title": "30 RefCell Counter", "url": "30_refcell_counter.md" },
+    { "id": "31", "title": "31 Arc Mutex Threads", "url": "31_arc_mutex_threads.md" }
+  ]
+}
