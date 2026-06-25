@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "rust-expert-notes",
+  "title": "Rust Expert · 学习笔记",
+  "description": "rust-practice-with-notes 的 expert 章节(练习 58–81)补充笔记，涵盖 'static 与 DST、Box::leak、全局初始化、macro_rules!、unsafe 边界与 safe wrapper、FFI 类型边界、Pin 与自引用。共 24 篇。",
+  "version": "2026-06-25",
+  "articles": [
+    { "id": "58", "title": "58 Static Lifetime Basics", "url": "58_static_lifetime_basics.md" },
+    { "id": "59", "title": "59 Box Leak Intentional", "url": "59_box_leak_intentional.md" },
+    { "id": "60", "title": "60 Sized and ?Sized Signatures", "url": "60_sized_qsized_signatures.md" },
+    { "id": "61", "title": "61 DST API Boundaries", "url": "61_dst_api_boundaries.md" },
+    { "id": "62", "title": "62 OnceLock Config Basics", "url": "62_oncelock_config_basics.md" },
+    { "id": "63", "title": "63 macro_rules Basic", "url": "63_macro_rules_basic.md" },
+    { "id": "64", "title": "64 Macro Repetition Join", "url": "64_macro_repetition_join.md" },
+    { "id": "65", "title": "65 Macro Hygiene Basics", "url": "65_macro_hygiene_basics.md" },
+    { "id": "66", "title": "66 Macro vs Function", "url": "66_macro_vs_function.md" },
+    { "id": "67", "title": "67 Derive vs Manual Impl", "url": "67_derive_manual_impl.md" },
+    { "id": "68", "title": "68 Unsafe Capabilities", "url": "68_unsafe_capabilities.md" },
+    { "id": "69", "title": "69 Raw Pointer Read", "url": "69_raw_pointer_read.md" },
+    { "id": "70", "title": "70 Raw Pointer Write", "url": "70_raw_pointer_write.md" },
+    { "id": "71", "title": "71 Unsafe Function Contract", "url": "71_unsafe_fn_contract.md" },
+    { "id": "72", "title": "72 Safe Wrapper v1", "url": "72_safe_wrapper_v1.md" },
+    { "id": "73", "title": "73 Safe Wrapper v2", "url": "73_safe_wrapper_v2.md" },
+    { "id": "74", "title": "74 Shrink Unsafe Scope", "url": "74_shrink_unsafe_scope.md" },
+    { "id": "75", "title": "75 repr(C) Struct Layout", "url": "75_repr_c_struct.md" },
+    { "id": "76", "title": "76 CStr and CString Boundary", "url": "76_cstr_cstring_boundary.md" },
+    { "id": "77", "title": "77 Self-Referential Struct Problem", "url": "77_self_ref_problem.md" },
+    { "id": "78", "title": "78 Move Invalidates Raw Pointer", "url": "78_move_invalidates_ref.md" },
+    { "id": "79", "title": "79 Pin Concept", "url": "79_pin_concept.md" },
+    { "id": "80", "title": "80 Unpin Escape", "url": "80_unpin_escape.md" },
+    { "id": "81", "title": "81 Safe Alternatives to Self-Reference", "url": "81_safe_alternatives.md" }
+  ]
+}
