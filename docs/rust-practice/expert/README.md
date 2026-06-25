@@ -8,8 +8,9 @@ Expert topics are not required for everyday Rust practice. The goal is to learn 
 
 - E1 (58-62): exercises and notes complete.
 - E2 (63-67): exercises and notes complete.
+- Stage 7 (68-74): exercises and notes complete.
 - P1, P2: project docs written, not yet built.
-- Stage 7-9 and P3-P4: planned, not yet written.
+- P3, P4 and Stage 8-9: planned, not yet written.
 
 ## Relationship to Earlier Sections
 
@@ -134,53 +135,17 @@ Project design rule:
 - each project should only combine the immediately preceding stages
 - if complexity grows, split into base version and optional challenge
 
-### Stage 4: Lifetimes, Static Data, and Dynamically Sized Types
+### Stage 4 + 5: Lifetimes, Static Data, DSTs, and Global State
 
-Goal: clarify advanced type and lifetime boundaries before touching unsafe-heavy code.
+**Complete** — covered by E1 (exercises 58-62) and P1.
 
-Planned topics:
-
-1. `'static` vs `&'static T`
-2. `Box::leak` and intentional leaks
-3. `Sized`, `?Sized`, `str`, `[T]`, and `dyn Trait`
-4. Type aliases and newtype wrappers
-5. Practical API boundaries with DSTs
-
-Planned project:
-
-- A small registry-style program that uses owned strings, borrowed static strings, and safe global initialization.
-
-### Stage 5: Global State and Initialization
-
-Goal: understand when global data is reasonable and how to initialize it safely.
-
-Planned topics:
-
-1. `const`
-2. `static`
-3. `static mut` and why to avoid it
-4. Atomic types
-5. `OnceLock` / `LazyLock`
-
-Planned project:
-
-- A small configuration registry using safe one-time initialization.
+Topics covered: `'static` vs `T: 'static`, `Box::leak`, `?Sized`, DST API boundaries, `OnceLock`.
 
 ### Stage 6: Macro Basics
 
-Goal: understand macros enough to read common Rust code and write simple local helpers.
+**Complete** — covered by E2 (exercises 63-67) and P2.
 
-Planned topics:
-
-1. `macro_rules!`
-2. Repetition patterns
-3. Hygiene basics
-4. Derive macros at a conceptual level
-5. When not to use a macro
-
-Planned project:
-
-- A small logging or assertion helper using `macro_rules!`.
+Topics covered: `macro_rules!`, repetition patterns, hygiene basics, macro vs function trade-off, derive macros via manual impl comparison.
 
 ### Stage 7: Unsafe Basics
 
@@ -188,7 +153,7 @@ Goal: learn what `unsafe` permits and how to wrap it in safe APIs.
 
 Pacing note: this stage is longer than others by design. Unsafe requires recognizing invariants before writing code.
 
-Planned exercises (68-74):
+Exercises (68-74):
 
 1. `68_unsafe_capabilities`: read code examples, annotate which of the five unsafe capabilities each block uses. No new code to write — recognition only.
 2. `69_raw_pointer_read`: create a `*const T` from a reference and dereference it inside an unsafe block. Single function, no abstraction layer yet.
@@ -197,6 +162,16 @@ Planned exercises (68-74):
 5. `72_safe_wrapper_v1`: wrap a single raw pointer operation behind a safe public function. One invariant, enforced at the boundary.
 6. `73_safe_wrapper_v2`: extend the wrapper with a second invariant and add at least two focused unit tests.
 7. `74_shrink_unsafe_scope`: given a snippet with an oversized unsafe block, refactor it to minimize the unsafe surface.
+
+Supplement notes:
+
+- `68_unsafe_capabilities`: `docs/rust-practice/expert/notes/68_unsafe_capabilities.md`
+- `69_raw_pointer_read`: `docs/rust-practice/expert/notes/69_raw_pointer_read.md`
+- `70_raw_pointer_write`: `docs/rust-practice/expert/notes/70_raw_pointer_write.md`
+- `71_unsafe_fn_contract`: `docs/rust-practice/expert/notes/71_unsafe_fn_contract.md`
+- `72_safe_wrapper_v1`: `docs/rust-practice/expert/notes/72_safe_wrapper_v1.md`
+- `73_safe_wrapper_v2`: `docs/rust-practice/expert/notes/73_safe_wrapper_v2.md`
+- `74_shrink_unsafe_scope`: `docs/rust-practice/expert/notes/74_shrink_unsafe_scope.md`
 
 Planned project:
 
