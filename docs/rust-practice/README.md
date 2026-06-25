@@ -8,7 +8,7 @@ The user's Rust notes are exported under:
 
 - `rust-notes/black的笔记.html`
 
-The review plan follows those notes from oldest to newest. Each Rust concept gets one focused exercise.
+The review plan follows those notes from oldest to newest. Each exercise should stay focused, but may cover 1-4 tightly related knowledge points when a concept is hard to understand in isolation.
 
 ## Sections
 

@@ -32,7 +32,7 @@ The user's notes are exported under:
 
 - `rust-notes/black的笔记.html`
 
-The review plan follows those notes from oldest to newest. Each Rust concept gets one focused exercise. After the user finishes an exercise and says `done`, inspect the relevant project, run it, run `cargo fmt --check`, then give a short review and the next exercise.
+The review plan follows those notes from oldest to newest. Each exercise should stay focused, but may cover 1-4 tightly related knowledge points when one idea needs nearby context to be understandable. After the user finishes an exercise and says `done`, inspect the relevant project, run it, run `cargo fmt --check`, then give a short review and the next exercise.
 
 ## Interaction Style
 

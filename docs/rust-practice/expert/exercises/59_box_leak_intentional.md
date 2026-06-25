@@ -40,9 +40,11 @@ Already learned tools:
 - references and lifetimes
 - `String` / `&str`
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
+- `String` to `Box<str>` conversion
 - `Box::leak` as an intentional one-way conversion
+- leak as a deliberate memory-management trade-off
 
 Out of scope (do not use yet):
 

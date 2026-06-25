@@ -42,9 +42,11 @@ Already learned tools:
 - iterator basics
 - ownership and borrowing
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - choosing DST-friendly parameter types as API boundaries
+- using `&str` instead of `&String` for read-only text
+- using `&[T]` instead of `&Vec<T>` for read-only sequences
 
 Out of scope (do not use yet):
 

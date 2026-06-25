@@ -29,7 +29,7 @@ Expert topics are not required for everyday Rust practice. The goal is to learn 
 4. Keep unsafe blocks small.
 5. Add focused tests around safe wrappers.
 6. Do not use expert topics just to make code shorter.
-7. Keep learning load low: each exercise should introduce at most one clearly new concept.
+7. Keep learning load low: each exercise should introduce a small cluster of 1-4 tightly related knowledge points, not several unrelated topics.
 8. Do not require unfamiliar crates or advanced syntax unless the exercise explicitly teaches them.
 
 ## Exercise Design Constraint (Low Cognitive Load)
@@ -38,7 +38,7 @@ To avoid "learned helplessness" and keep momentum:
 
 1. Every exercise must declare:
 	- Already learned tools you may use directly
-	- One new concept introduced in this exercise
+	- New knowledge points introduced in this exercise
 	- Out-of-scope techniques (do not use yet)
 2. Prefer "single-variable" tasks:
 	- Change one dimension at a time (ownership, API shape, unsafe boundary, etc.)
@@ -61,7 +61,7 @@ These are the first five concrete expert exercises, designed with low cognitive 
 
 Progression principle:
 
-- each exercise introduces one new concept
+- each exercise introduces 1-4 tightly related knowledge points
 - no surprise dependencies on unlearned advanced machinery
 - optional challenge variants can be added later, but base task stays minimal
 
@@ -81,7 +81,7 @@ Supplement notes:
 
 ## Exercise Set (E2) - Macro Basics
 
-These exercises map to Stage 6 and keep one-new-concept-per-exercise pacing.
+These exercises map to Stage 6 and keep a small-cluster-per-exercise pacing.
 
 1. `63_macro_rules_basic`: `docs/rust-practice/expert/exercises/63_macro_rules_basic.md`
 2. `64_macro_repetition_join`: `docs/rust-practice/expert/exercises/64_macro_repetition_join.md`

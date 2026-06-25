@@ -51,9 +51,11 @@ Already learned tools:
 - basic error handling with `Result` / `Option`
 - `static` basics from docs
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `OnceLock` one-time initialization pattern
+- safe global read-only state
+- explicit handling of repeated initialization
 
 Out of scope (do not use yet):
 

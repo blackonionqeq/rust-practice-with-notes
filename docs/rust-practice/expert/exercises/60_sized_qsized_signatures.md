@@ -38,8 +38,10 @@ Already learned tools:
 - references and slices
 - `String`, `Vec<u8>`
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
+- default `Sized` bound on generic parameters
+- dynamically sized types behind references
 - `?Sized` on generic parameters
 
 Out of scope (do not use yet):

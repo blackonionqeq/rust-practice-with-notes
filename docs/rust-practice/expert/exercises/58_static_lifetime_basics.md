@@ -42,9 +42,11 @@ Already learned tools:
 - basic lifetime syntax
 - generic functions
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - difference between `&'static T` and `T: 'static`
+- string literals as common `&'static str` values
+- owned values that can satisfy `T: 'static`
 
 Out of scope (do not use yet):
 
