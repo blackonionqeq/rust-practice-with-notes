@@ -38,10 +38,12 @@ Already learned tools:
 - `Pin<Box<T>>` basics (79)
 - trait bounds
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `Unpin` means "safe to move even after pinning" — `Pin` adds no restriction for `Unpin` types
 - almost all standard types implement `Unpin` automatically
+- `Pin::get_mut` is safe only when `T: Unpin`
+- `get_unchecked_mut` is the unsafe escape hatch for `!Unpin` types
 
 Out of scope (do not use yet):
 

@@ -37,10 +37,10 @@ In `main`:
 2. Print `std::mem::offset_of!(PointC, x)`, `offset_of!(PointC, y)`, `offset_of!(PointC, tag)`.
 3. Add a comment explaining why the two structs may have different sizes.
 
-Then add an `extern "C"` declaration block (no implementation, just a type-level boundary):
+Then add an `unsafe extern "C"` declaration block (no implementation, just a type-level boundary):
 
 ```rust
-extern "C" {
+unsafe extern "C" {
     fn add_floats(a: f32, b: f32) -> f32;
 }
 ```
@@ -56,10 +56,12 @@ Already learned tools:
 - struct definitions
 - `std::mem::size_of`
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `#[repr(C)]` as a layout guarantee for FFI boundaries
-- `extern "C"` block as a declaration of a foreign function (type-level only)
+- field offset, alignment, and tail padding as reasons `size_of` may exceed field sizes
+- `unsafe extern "C"` block as a declaration of a foreign function (type-level only)
+- why Rust 2024 marks foreign function declarations as unsafe to declare and unsafe to call
 
 Out of scope (do not use yet):
 

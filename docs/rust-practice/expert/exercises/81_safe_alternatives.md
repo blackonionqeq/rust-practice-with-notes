@@ -57,9 +57,12 @@ Already learned tools:
 - `Pin` concept (79, 80)
 - index-based workaround (77)
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - practical trade-off analysis: when to use index, Rc, or Pin for back-references
+- distinguishing relationship modeling from true address-stability requirements
+- index/id validity as an invariant maintained by the container
+- `Rc` as shared ownership, with `Weak` needed later for cycles
 
 Out of scope (do not use yet):
 

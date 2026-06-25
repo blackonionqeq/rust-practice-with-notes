@@ -46,10 +46,12 @@ Already learned tools:
 - `Box<T>` and heap allocation
 - raw pointer / move mechanics (78)
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `PhantomPinned` opts a type out of `Unpin`
 - `Pin<P>` prevents moving the value behind the pointer
+- moving the `Pin<Box<T>>` wrapper is different from moving the pinned `T`
+- `Pin` creates the address-stability boundary but does not by itself build self-reference
 
 Out of scope (do not use yet):
 

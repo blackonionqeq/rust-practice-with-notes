@@ -31,10 +31,12 @@ Already learned tools:
 - `Result` and error handling
 - string basics
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `CString` / `&CStr` as the safe boundary type for null-terminated strings
 - why embedded null bytes are invalid in C strings
+- the ownership/lifetime difference between `CString`, `&CStr`, and `as_ptr()`
+- the difference between C-string validity and UTF-8 validity
 
 Out of scope (do not use yet):
 

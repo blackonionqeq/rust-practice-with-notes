@@ -64,10 +64,12 @@ Already learned tools:
 - struct definitions and lifetimes
 - string slicing
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - why self-referential references are rejected by the borrow checker
+- lifetime parameters describe external borrows, not references between fields of the same struct
 - index-based workaround as the simplest safe alternative
+- returning a reference from `view(&self)` ties the borrow to the method call instead of storing it
 
 Out of scope (do not use yet):
 

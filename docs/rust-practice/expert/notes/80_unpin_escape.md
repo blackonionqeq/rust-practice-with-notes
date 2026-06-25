@@ -12,6 +12,24 @@
 - 只有显式添加 `PhantomPinned`（或包含 `!Unpin` 字段）的类型才会受到 `Pin` 的真正约束。
 - `Pin` 的作用域：保护 `!Unpin` 的类型在 pin 之后不被移动。
 
+## 需要补充看懂的知识
+
+### `Unpin` 是一个自动 trait
+
+你通常不需要手写 `impl Unpin for T`。如果一个类型的所有字段都可以安全移动，编译器会自动认为它是 `Unpin`。
+
+如果类型里有 `PhantomPinned`，或者包含某个 `!Unpin` 字段，它就不会自动实现 `Unpin`。这就是 79 题里 `Unmovable` 生效的原因。
+
+### `Pin::get_mut` 的签名体现了边界
+
+`get_mut` 只对 `T: Unpin` 的 `Pin<&mut T>` 可用，因为拿到普通 `&mut T` 后，调用者就可能用 `std::mem::replace`、`take` 等方式把值移出去。
+
+对 `!Unpin` 类型，安全 API 不给你 `&mut T`，只给你受限制的 `Pin<&mut T>`。如果用 `get_unchecked_mut` 绕过，就必须自己保证不会移动内部值。
+
+### `Pin` 不是"禁止移动外层指针"
+
+`Pin<Box<T>>` 这个 `Box` 仍然可以移动，因为移动 `Box` 不会移动堆上的 `T`。`Pin` 关心的是被指针指向的 `T` 的地址稳定，不是包装指针变量在栈上的位置。
+
 ## 核心示例
 
 ```rust

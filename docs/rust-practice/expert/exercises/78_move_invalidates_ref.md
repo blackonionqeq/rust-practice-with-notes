@@ -34,7 +34,7 @@ impl Fragile {
 
     // Safety: only call this immediately after new(), before any move
     unsafe fn read_ptr(&self) -> i32 {
-        *self.ptr
+        unsafe { *self.ptr }
     }
 }
 ```
@@ -55,9 +55,12 @@ Already learned tools:
 - raw pointer basics (69-70)
 - struct definitions
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - a move copies the struct's bytes to a new address, leaving the raw pointer pointing to the old (now invalid) location
+- raw pointers do not let the borrow checker track address validity
+- pointers into inline fields behave differently from pointers into separately allocated heap data
+- unsafe operations inside `unsafe fn` still need an explicit `unsafe` block in Rust 2024 style
 
 Out of scope (do not use yet):
 
