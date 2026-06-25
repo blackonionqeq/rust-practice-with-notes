@@ -87,9 +87,11 @@ Already learned tools:
 - references and borrowing
 - functions and basic types
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - the five unsafe capabilities and how to identify them
+- difference between allowing an unsafe capability and disabling Rust checks
+- recognizing where unsafe responsibility sits
 
 Out of scope (do not use yet):
 

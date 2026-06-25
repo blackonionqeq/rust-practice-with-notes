@@ -21,7 +21,7 @@ Define:
 ///
 /// (fill in at least two preconditions)
 unsafe fn read_i32(ptr: *const i32) -> i32 {
-    *ptr
+    unsafe { *ptr }
 }
 ```
 
@@ -39,9 +39,11 @@ Already learned tools:
 - raw pointer read and write (69, 70)
 - `unsafe` block syntax
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - `unsafe fn` as a contract declaration: the caller bears the burden of satisfying the preconditions
+- writing concrete `# Safety` preconditions
+- showing correct and incorrect call-site reasoning
 
 Out of scope (do not use yet):
 

@@ -39,9 +39,11 @@ Already learned tools:
 - iterating / collecting basics
 - first macro definition and call
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - repetition matcher (`$(...),+`) in `macro_rules!`
+- separator placement in repeated macro patterns
+- separate arms for one item and multiple items
 
 Out of scope (do not use yet):
 

@@ -32,9 +32,11 @@ Already learned tools:
 - functions
 - basic macro usage
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - practical rule for "when not to use macro"
+- comparing function signatures against macro syntax
+- choosing simpler abstractions when values are enough
 
 Out of scope (do not use yet):
 
@@ -52,6 +54,3 @@ Out of scope (do not use yet):
 
 - Decision quality: picks simpler tool when enough.
 - Explanation is concrete, not slogan-style.
-
-- Knows what behavior `derive` gives.
-- Can explain why this is compile-time code generation.

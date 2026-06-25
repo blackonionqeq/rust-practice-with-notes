@@ -40,9 +40,11 @@ Already learned tools:
 - ownership and `clone`
 - basic macro usage
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - hygiene intuition: internal macro variable should not break caller scope
+- evaluating macro input expressions exactly once
+- avoiding implicit dependencies on caller-local names
 
 Out of scope (do not use yet):
 

@@ -57,9 +57,11 @@ Already learned tools:
 - `fmt::Debug` trait signature
 - basic operator overloading via traits
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - derive as compile-time code generation of equivalent manual impls
+- default field-by-field trait behavior
+- field trait bounds required by derive
 
 Out of scope (do not use yet):
 

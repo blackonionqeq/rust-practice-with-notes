@@ -41,9 +41,11 @@ Already learned tools:
 - `unsafe fn` contract pattern (71)
 - `Option` return type
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - the safe wrapper pattern: enforce invariants at the safe boundary, then enter `unsafe` with the guarantee already established
+- using `Option` to represent rejected unsafe preconditions
+- keeping callers on a safe API
 
 Out of scope (do not use yet):
 

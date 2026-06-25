@@ -45,10 +45,11 @@ Already learned tools:
 - safe wrapper pattern (72)
 - unit tests with `#[cfg(test)]`
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - managing multiple invariants in one safe wrapper
 - testing unsafe internals through the safe public interface
+- proving `ptr.add(index)` stays in bounds before dereference
 
 Out of scope (do not use yet):
 

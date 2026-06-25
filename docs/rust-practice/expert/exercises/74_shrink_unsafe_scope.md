@@ -49,9 +49,11 @@ Already learned tools:
 - safe wrapper pattern (72, 73)
 - unsafe scope and raw pointer dereference
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - the principle: unsafe blocks should be as small as possible
+- separating safe checks from unsafe operations
+- keeping `// Safety:` comments aligned with the remaining unsafe operations
 
 Out of scope (do not use yet):
 

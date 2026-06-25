@@ -38,9 +38,11 @@ Already learned tools:
 - formatting with `println!`
 - expression basics
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - defining and invoking a minimal `macro_rules!`
+- matching one expression with `$name:expr`
+- understanding macro expansion before normal compilation
 
 Out of scope (do not use yet):
 

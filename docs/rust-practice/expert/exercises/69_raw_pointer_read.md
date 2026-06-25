@@ -39,9 +39,11 @@ Already learned tools:
 - slices and references
 - the five unsafe capabilities (68)
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - constructing and dereferencing a `*const T` in the minimal, single-operation case
+- deriving raw pointers from valid references
+- documenting the non-empty precondition before dereference
 
 Out of scope (do not use yet):
 

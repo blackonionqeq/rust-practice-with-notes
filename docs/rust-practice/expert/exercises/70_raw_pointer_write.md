@@ -40,9 +40,11 @@ Already learned tools:
 - mutable references and slices
 - raw pointer read (69)
 
-New concept in this exercise:
+New knowledge points in this exercise:
 
 - writing through `*mut T` and explicitly stating the write invariant
+- using `&mut [T]` as the source of exclusive access
+- checking element existence before raw pointer write
 
 Out of scope (do not use yet):
 
