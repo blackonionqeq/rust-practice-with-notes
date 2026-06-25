@@ -1,4 +1,4 @@
-# 67 Macro vs Function
+# 66 Macro vs Function
 
 ## Goal
 
@@ -9,7 +9,7 @@ Practice deciding when a macro is unnecessary.
 Create project:
 
 ```bash
-cargo new practice/expert/67_macro_vs_function --name macro_vs_function
+cargo new practice/expert/66_macro_vs_function --name macro_vs_function
 ```
 
 ## Requirements
@@ -52,3 +52,6 @@ Out of scope (do not use yet):
 
 - Decision quality: picks simpler tool when enough.
 - Explanation is concrete, not slogan-style.
+
+- Knows what behavior `derive` gives.
+- Can explain why this is compile-time code generation.

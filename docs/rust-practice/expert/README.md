@@ -6,7 +6,10 @@ Expert topics are not required for everyday Rust practice. The goal is to learn 
 
 ## Status
 
-E1 exercises and notes are initialized (58-62). Later stages and projects are still outline-level.
+- E1 (58-62): exercises and notes complete.
+- E2 (63-67): exercises and notes complete.
+- P1, P2: project docs written, not yet built.
+- Stage 7-9 and P3-P4: planned, not yet written.
 
 ## Relationship to Earlier Sections
 
@@ -80,47 +83,55 @@ These exercises map to Stage 6 and keep one-new-concept-per-exercise pacing.
 1. `63_macro_rules_basic`: `docs/rust-practice/expert/exercises/63_macro_rules_basic.md`
 2. `64_macro_repetition_join`: `docs/rust-practice/expert/exercises/64_macro_repetition_join.md`
 3. `65_macro_hygiene_basics`: `docs/rust-practice/expert/exercises/65_macro_hygiene_basics.md`
-4. `66_derive_macro_concept`: `docs/rust-practice/expert/exercises/66_derive_macro_concept.md`
-5. `67_macro_vs_function`: `docs/rust-practice/expert/exercises/67_macro_vs_function.md`
+4. `66_macro_vs_function`: `docs/rust-practice/expert/exercises/66_macro_vs_function.md`
+5. `67_derive_manual_impl`: `docs/rust-practice/expert/exercises/67_derive_manual_impl.md`
+
+Progression rationale for E2:
+
+- 63-65: learn to write macros (single arg → repetition → hygiene)
+- 66: learn when NOT to use macros (function is often better)
+- 67: understand derive macros by writing equivalent impls manually first
 
 Supplement notes:
 
 - `63_macro_rules_basic`: `docs/rust-practice/expert/notes/63_macro_rules_basic.md`
 - `64_macro_repetition_join`: `docs/rust-practice/expert/notes/64_macro_repetition_join.md`
 - `65_macro_hygiene_basics`: `docs/rust-practice/expert/notes/65_macro_hygiene_basics.md`
-- `66_derive_macro_concept`: `docs/rust-practice/expert/notes/66_derive_macro_concept.md`
-- `67_macro_vs_function`: `docs/rust-practice/expert/notes/67_macro_vs_function.md`
+- `66_macro_vs_function`: `docs/rust-practice/expert/notes/66_macro_vs_function.md`
+- `67_derive_manual_impl`: `docs/rust-practice/expert/notes/67_derive_manual_impl.md`
 
 ## Mini Project Plan (Expert)
 
-Expert should keep the same cadence as advanced-extra: every few exercises, build one small integration project.
+Expert projects appear after each stage group to integrate the concepts before moving on.
 
-Suggested projects:
+### P1: `registry_bootstrap` (after E1, before E2)
 
-1. `P1_registry_bootstrap` (after Stage 4 + Stage 5)
-	- Scope: owned + borrowed config labels, one-time init, DST-friendly read-only API.
-	- Keep small: single binary + one small `lib.rs` module.
-	- Review focus: API boundaries (`&str`/`&[T]` style), no unnecessary ownership moves, no `static mut`.
+- `docs/rust-practice/expert/projects/P1_registry_bootstrap.md`
+- Integrates: `'static` refs, `Box::leak`, DST API boundaries, `OnceLock`.
+- Scope: single binary, one small registry module in `main.rs`.
 
-2. `P2_macro_rules_toolkit` (after Stage 6)
-	- Scope: 1-2 tiny `macro_rules!` helpers (e.g. assertion/log formatting wrapper).
-	- Keep small: no proc-macro, no multi-crate setup.
-	- Review focus: macro readability, hygiene basics, clear "when not to use macro" notes.
+### P2: `macro_rules_toolkit` (after E2, before Stage 7)
 
-3. `P3_safe_unsafe_wrapper` (after Stage 7, main capstone)
-	- Scope: one safe API wrapping a tiny unsafe core (raw pointer or memory view style).
-	- Keep small: one core abstraction, explicit invariant list, focused unit tests.
-	- Review focus: unsafe block size, safety contract clarity, tests that defend invariants.
+- `docs/rust-practice/expert/projects/P2_macro_rules_toolkit.md`
+- Integrates: `macro_rules!`, repetition, hygiene, macro vs function trade-off.
+- Scope: two small helpers (`assert_contains!`, `log_fields!`) with tests.
 
-4. `P4_ffi_pin_boundary_lab` (after Stage 8 + Stage 9)
-	- Scope: small FFI boundary sample + small Pin/self-reference comparison demo.
-	- Keep small: conceptual boundary exercise, avoid executor/future internals.
-	- Review focus: ownership across boundaries, representation assumptions, when to prefer safe alternatives.
+### P3: `safe_unsafe_wrapper` (after Stage 7)
+
+- Planned.
+- Integrates: raw pointers, unsafe fn, safe wrapper with invariant docs and focused tests.
+- Scope: one core abstraction, explicit invariant list.
+
+### P4: `pin_self_ref_lab` (after Stage 9)
+
+- Planned.
+- Integrates: self-reference problem, Pin conceptually, safe alternatives.
+- Scope: conceptual boundary exercise — no async executor internals.
 
 Project design rule:
 
 - expert projects integrate boundary thinking, not feature volume
-- each project should only combine nearby stages
+- each project should only combine the immediately preceding stages
 - if complexity grows, split into base version and optional challenge
 
 ### Stage 4: Lifetimes, Static Data, and Dynamically Sized Types
@@ -175,61 +186,54 @@ Planned project:
 
 Goal: learn what `unsafe` permits and how to wrap it in safe APIs.
 
-Pacing note: this stage should be longer than others and split into smaller, safer steps.
+Pacing note: this stage is longer than others by design. Unsafe requires recognizing invariants before writing code.
 
-Planned topics:
+Planned exercises (68-74):
 
-1. The five unsafe capabilities
-2. Raw pointers
-3. Dereferencing raw pointers
-4. Unsafe functions
-5. Safe wrappers around unsafe internals
-
-Recommended exercise rhythm for this stage:
-
-1. Capability recognition (identify where unsafe is actually required)
-2. Minimal raw pointer reads (single function, no abstraction)
-3. Minimal raw pointer writes (single invariant)
-4. Unsafe function boundary + explicit safety contract
-5. Safe wrapper v1 (single invariant)
-6. Safe wrapper v2 (multiple invariants + focused tests)
-7. Boundary review exercise (find and shrink unnecessary unsafe)
+1. `68_unsafe_capabilities`: read code examples, annotate which of the five unsafe capabilities each block uses. No new code to write — recognition only.
+2. `69_raw_pointer_read`: create a `*const T` from a reference and dereference it inside an unsafe block. Single function, no abstraction layer yet.
+3. `70_raw_pointer_write`: create a `*mut T` from a mutable reference and write through it. State the one invariant the code relies on.
+4. `71_unsafe_fn_contract`: define an `unsafe fn` with a `# Safety` doc comment. Show a correct and an incorrect call site.
+5. `72_safe_wrapper_v1`: wrap a single raw pointer operation behind a safe public function. One invariant, enforced at the boundary.
+6. `73_safe_wrapper_v2`: extend the wrapper with a second invariant and add at least two focused unit tests.
+7. `74_shrink_unsafe_scope`: given a snippet with an oversized unsafe block, refactor it to minimize the unsafe surface.
 
 Planned project:
 
-- A small safe abstraction over a raw-pointer operation.
+- `P3_safe_unsafe_wrapper` (after exercise 74)
 
-### Stage 8: FFI Basics
+### Stage 8: FFI Basics (Lightweight)
 
-Goal: understand how Rust calls C-style APIs and how boundaries affect safety.
+Goal: understand how Rust communicates with C-style APIs at the type level. No actual C compilation required.
 
-Planned topics:
+Scope note: this stage is intentionally short — two focused exercises, no build.rs, no linking. If you later need real FFI for a specific project, read the Rustonomicon FFI chapter at that point.
 
-1. `extern "C"`
-2. `#[repr(C)]`
-3. C string boundaries
-4. Ownership across FFI
-5. Error handling at FFI boundaries
+Planned exercises (75-76):
 
-Planned project:
+1. `75_repr_c_struct`: define a `#[repr(C)]` struct and compare its layout to a normal Rust struct. Use `std::mem::size_of` and `offset_of!` to inspect. Write an `extern "C"` function declaration (no implementation needed — just show the type boundary).
+2. `76_cstr_cstring_boundary`: practice converting between `&CStr`, `CString`, and `&str`. Handle the null-terminator boundary safely without `unsafe`. Understand when the conversion can fail.
 
-- A minimal Rust-to-C style boundary exercise.
+No project planned for Stage 8.
+
+Note: full FFI (linking to actual C code, `build.rs`, `bindgen`) is out of scope for this curriculum.
 
 ### Stage 9: Pin and Self-Reference
 
-Goal: understand why self-referential data is hard and what `Pin` is trying to protect.
+Goal: understand why self-referential data is hard and what `Pin` is protecting, without diving into async executor internals.
 
-Planned topics:
+Planned exercises (77-81):
 
-1. Self-referential struct problem
-2. Moving values and invalidating internal references
-3. `Pin` conceptually
-4. `Unpin`
-5. When to use existing crates instead of hand-rolling
+1. `77_self_ref_problem`: build a struct that tries to hold a reference to its own field. Observe the compiler error. Understand why moving breaks the reference.
+2. `78_move_invalidates_ref`: write a small example that shows how stack moves work and why they invalidate internal pointers. Use raw pointers temporarily to make the problem concrete.
+3. `79_pin_concept`: use `Pin<Box<T>>` to create an unmovable value. Implement `!Unpin` with `PhantomPinned`. Verify that move is rejected at compile time.
+4. `80_unpin_escape`: implement `Unpin` manually (or use a type that is `Unpin`) and show that `Pin` adds no extra restriction in that case.
+5. `81_safe_alternatives`: compare three approaches to self-reference (index-based, `Rc<RefCell<_>>`, and `Pin`) for the same toy problem. Comment on trade-offs.
 
 Planned project:
 
-- A conceptual exercise comparing safe alternatives before using `Pin`.
+- `P4_pin_self_ref_lab` (after exercise 81)
+  - Scope: compare safe alternatives and one `Pin`-based approach side by side.
+  - No async executor internals.
 
 ## Deep Reference
 
