@@ -9,8 +9,10 @@ Expert topics are not required for everyday Rust practice. The goal is to learn 
 - E1 (58-62): exercises and notes complete.
 - E2 (63-67): exercises and notes complete.
 - Stage 7 (68-74): exercises and notes complete.
-- P1, P2: project docs written, not yet built.
-- P3, P4 and Stage 8-9: planned, not yet written.
+- Stage 8 (75-76): exercises and notes complete.
+- Stage 9 (77-81): exercises and notes complete.
+- P1, P2, P3: project docs written, not yet built.
+- P4: planned, not yet written.
 
 ## Relationship to Earlier Sections
 
@@ -119,9 +121,9 @@ Expert projects appear after each stage group to integrate the concepts before m
 
 ### P3: `safe_unsafe_wrapper` (after Stage 7)
 
-- Planned.
+- `docs/rust-practice/expert/projects/P3_safe_unsafe_wrapper.md`
 - Integrates: raw pointers, unsafe fn, safe wrapper with invariant docs and focused tests.
-- Scope: one core abstraction, explicit invariant list.
+- Scope: `SliceIndex` struct with safe public API, `PhantomData` for lifetime, four unit tests.
 
 ### P4: `pin_self_ref_lab` (after Stage 9)
 
@@ -183,10 +185,15 @@ Goal: understand how Rust communicates with C-style APIs at the type level. No a
 
 Scope note: this stage is intentionally short — two focused exercises, no build.rs, no linking. If you later need real FFI for a specific project, read the Rustonomicon FFI chapter at that point.
 
-Planned exercises (75-76):
+Exercises (75-76):
 
 1. `75_repr_c_struct`: define a `#[repr(C)]` struct and compare its layout to a normal Rust struct. Use `std::mem::size_of` and `offset_of!` to inspect. Write an `extern "C"` function declaration (no implementation needed — just show the type boundary).
 2. `76_cstr_cstring_boundary`: practice converting between `&CStr`, `CString`, and `&str`. Handle the null-terminator boundary safely without `unsafe`. Understand when the conversion can fail.
+
+Supplement notes:
+
+- `75_repr_c_struct`: `docs/rust-practice/expert/notes/75_repr_c_struct.md`
+- `76_cstr_cstring_boundary`: `docs/rust-practice/expert/notes/76_cstr_cstring_boundary.md`
 
 No project planned for Stage 8.
 
@@ -196,13 +203,21 @@ Note: full FFI (linking to actual C code, `build.rs`, `bindgen`) is out of scope
 
 Goal: understand why self-referential data is hard and what `Pin` is protecting, without diving into async executor internals.
 
-Planned exercises (77-81):
+Exercises (77-81):
 
 1. `77_self_ref_problem`: build a struct that tries to hold a reference to its own field. Observe the compiler error. Understand why moving breaks the reference.
 2. `78_move_invalidates_ref`: write a small example that shows how stack moves work and why they invalidate internal pointers. Use raw pointers temporarily to make the problem concrete.
 3. `79_pin_concept`: use `Pin<Box<T>>` to create an unmovable value. Implement `!Unpin` with `PhantomPinned`. Verify that move is rejected at compile time.
 4. `80_unpin_escape`: implement `Unpin` manually (or use a type that is `Unpin`) and show that `Pin` adds no extra restriction in that case.
-5. `81_safe_alternatives`: compare three approaches to self-reference (index-based, `Rc<RefCell<_>>`, and `Pin`) for the same toy problem. Comment on trade-offs.
+5. `81_safe_alternatives`: compare three approaches to self-reference (index-based, `Rc<T>`, and a comment on Pin) for the same toy problem. Comment on trade-offs.
+
+Supplement notes:
+
+- `77_self_ref_problem`: `docs/rust-practice/expert/notes/77_self_ref_problem.md`
+- `78_move_invalidates_ref`: `docs/rust-practice/expert/notes/78_move_invalidates_ref.md`
+- `79_pin_concept`: `docs/rust-practice/expert/notes/79_pin_concept.md`
+- `80_unpin_escape`: `docs/rust-practice/expert/notes/80_unpin_escape.md`
+- `81_safe_alternatives`: `docs/rust-practice/expert/notes/81_safe_alternatives.md`
 
 Planned project:
 
