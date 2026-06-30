@@ -43,6 +43,88 @@ first_word("go now");    // 字面量本来就是 &str
 first_word(&owned[..4]); // 字符串切片也是 &str
 ```
 
+### `&String` 自动变成 `&str` 靠的是 deref coercion
+
+这里的“自动借成”不是随便的隐式类型转换，而是 Rust 在引用场景下提供的一种有限自动转换：`deref coercion`。
+
+`String` 实现了 `Deref`：
+
+```rust
+impl Deref for String {
+	type Target = str;
+}
+```
+
+所以当函数需要 `&str`，而你传入 `&String` 时，编译器可以自动把它调整成 `&str`：
+
+```rust
+let s = String::from("rust lang");
+
+first_word(&s);
+// 大致可以理解成：
+// first_word(s.deref());
+// 或：
+// first_word(s.as_str());
+```
+
+这只是在借用层面发生的转换：函数没有拿走 `String`，也没有复制字符串内容。
+
+`Vec<T>` 也是同一类机制。`Vec<T>` 实现了：
+
+```rust
+impl<T> Deref for Vec<T> {
+	type Target = [T];
+}
+```
+
+所以当函数需要 `&[i32]`，而你传入 `&Vec<i32>` 时，可以自动得到一段切片视图：
+
+```rust
+let values = vec![1, 2, 3];
+
+sum_slice(&values);
+// 大致可以理解成：
+// sum_slice(values.deref());
+// 或：
+// sum_slice(values.as_slice());
+```
+
+这也是为什么 `&str` / `&[T]` 适合作为只读 API 边界：它们接收的是“视图”，调用者可以来自 `String`、`Vec<T>`、字面量、数组、切片等不同来源。
+
+### 自定义类型也可以利用这个思路
+
+如果你写了一个 wrapper 类型，并且它确实应该像内部目标类型一样被使用，可以实现 `Deref`：
+
+```rust
+use std::ops::Deref;
+
+struct UserName(String);
+
+impl Deref for UserName {
+	type Target = str;
+
+	fn deref(&self) -> &Self::Target {
+		&self.0
+	}
+}
+
+fn greet(name: &str) {
+	println!("hello {name}");
+}
+
+fn main() {
+	let name = UserName(String::from("black"));
+	greet(&name); // &UserName 可以自动调整成 &str
+}
+```
+
+但不要为了省一个方法调用就随便实现 `Deref`。一个经验判断是：
+
+- 如果 wrapper 语义上就是目标类型的一种透明包装，可以考虑 `Deref`。
+- 如果只是想暴露内部数据，优先提供显式方法：`as_str()`、`as_slice()`、`as_inner()`。
+
+`Deref` 会影响方法查找和自动转换，属于会改变类型使用体验的 trait。实现它之前，要确认“这个类型像不像目标类型”。
+
 ### `&Vec<T>` 和 `&[T]` 的 API 含义不同
 
 如果函数只需要读一段元素，优先写：
