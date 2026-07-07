@@ -151,7 +151,7 @@ Topics covered: `macro_rules!`, repetition patterns, hygiene basics, macro vs fu
 
 ### Stage 7: Unsafe Basics
 
-Goal: learn what `unsafe` permits and how to wrap it in safe APIs.
+Goal: learn when `unsafe` is justified, what it permits, and how to wrap it in safe APIs.
 
 Pacing note: this stage is longer than others by design. Unsafe requires recognizing invariants before writing code.
 
