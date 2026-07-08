@@ -167,6 +167,7 @@ Exercises (68-74):
 
 Supplement notes:
 
+- `00_autoderef_coercion_cheatsheet`: `docs/rust-practice/expert/notes/00_autoderef_coercion_cheatsheet.md`
 - `68_unsafe_capabilities`: `docs/rust-practice/expert/notes/68_unsafe_capabilities.md`
 - `69_raw_pointer_read`: `docs/rust-practice/expert/notes/69_raw_pointer_read.md`
 - `70_raw_pointer_write`: `docs/rust-practice/expert/notes/70_raw_pointer_write.md`

@@ -2,9 +2,10 @@
   "schemaVersion": 1,
   "id": "rust-expert-notes",
   "title": "Rust Expert · 学习笔记",
-  "description": "rust-practice-with-notes 的 expert 章节(练习 58–81)补充笔记，涵盖 'static 与 DST、Box::leak、全局初始化、macro_rules!、unsafe 边界与 safe wrapper、FFI 类型边界、Pin 与自引用。共 24 篇。",
-  "version": "2026-06-25",
+  "description": "rust-practice-with-notes 的 expert 章节(练习 58–81)补充笔记，涵盖 'static 与 DST、Box::leak、全局初始化、macro_rules!、unsafe 边界与 safe wrapper、FFI 类型边界、Pin 与自引用。共 25 篇。",
+  "version": "2026-07-08",
   "articles": [
+    { "id": "00", "title": "Rust 自动解引用 / 自动借用 / Coercion 速查表", "url": "00_autoderef_coercion_cheatsheet.md" },
     { "id": "58", "title": "58 Static Lifetime Basics", "url": "58_static_lifetime_basics.md" },
     { "id": "59", "title": "59 Box Leak Intentional", "url": "59_box_leak_intentional.md" },
     { "id": "60", "title": "60 Sized and ?Sized Signatures", "url": "60_sized_qsized_signatures.md" },
