@@ -53,17 +53,22 @@ struct 的大小要同时满足两个条件：
 1. 每个字段都放在满足自身对齐要求的位置上。
 2. 整个 struct 的大小要是最大字段对齐值的整数倍，方便数组连续存放。
 
-以 `#[repr(C)] struct PointC { x: f32, y: f32, tag: u8 }` 为例：
+以 `#[repr(C)] struct DemoC { a: u8, b: u64, c: u8 }` 为例，在 `u64` 按 8 字节对齐的常见 64 位目标上：
 
-- `f32` 通常对齐到 4 字节，所以 `x` 在 offset 0，`y` 在 offset 4。
-- `tag: u8` 在 offset 8，占 1 字节。
-- 字段实际用到 byte 0..=8，一共 9 字节，但整个 struct 仍要按 4 对齐，所以尾部补 3 字节 padding，最终 `size_of::<PointC>()` 通常是 12。
+- `a: u8` 在 offset 0，占 1 字节。
+- 为了让 `b: u64` 从 8 的整数倍地址开始，`a` 后面插入 7 字节 padding，`b` 在 offset 8。
+- `c: u8` 在 offset 16，占 1 字节。
+- struct 的 alignment 是 8，因此末尾再补 7 字节 padding，`size_of::<DemoC>()` 是 24。
+
+默认布局的 `DemoRust` 不要求保持声明顺序。当前编译器可以把 `u64` 放在前面，再把两个 `u8` 放在一起，从而让它在同一目标上只占 16 字节。这正是本题选择 `u8, u64, u8` 的原因：字段顺序留下了明显的优化空间。
+
+不过，16 字节以及每个字段的具体 offset 都只是本次编译的观察结果，不是默认 Rust 布局的稳定承诺。可以依赖的是 `DemoC` 的 C representation 规则，不能把当前 `DemoRust` 的排列写进跨语言协议。
 
 ### `offset_of!` 看的是字段起始位置
 
-`offset_of!(PointC, tag)` 返回的是 `tag` 字段从 struct 开头算起的起始偏移，通常是 8，不是 struct 的总大小，也不是字段结束位置。
+`offset_of!(DemoC, c)` 返回的是 `c` 字段从 struct 开头算起的起始偏移，在上述目标上是 16，不是 struct 的总大小，也不是字段结束位置。
 
-这点很适合用来检查 FFI 布局：如果 C 侧认为 `tag` 在 offset 8，而 Rust 侧没有 `repr(C)` 导致布局不同，两边就会用不同方式解释同一段内存。
+这点很适合用来检查 FFI 布局：`DemoC` 的 `b` 和 `c` 分别位于 offset 8 和 16；`DemoRust` 的观察值可能不同。如果外部代码按照 `DemoC` 的 offset 读取 `DemoRust`，双方就会用不同方式解释同一段内存。
 
 ### `repr(C)` 保证布局，不保证所有类型都适合 FFI
 
@@ -97,17 +102,20 @@ Rust 编译成 WebAssembly 后交给 JavaScript 调用时，通常使用 `wasm-b
 use std::mem::{size_of, offset_of};
 
 #[repr(C)]
-struct PointC { x: f32, y: f32, tag: u8 }
-struct PointRust { x: f32, y: f32, tag: u8 }
+struct DemoC { a: u8, b: u64, c: u8 }
+struct DemoRust { a: u8, b: u64, c: u8 }
 
 fn main() {
-    println!("PointC  size: {}", size_of::<PointC>());   // 通常 12（对齐到 4）
-    println!("PointRust size: {}", size_of::<PointRust>()); // 本例通常也是 12，但字段 offset 不保证相同
-    println!("tag offset in PointC: {}", offset_of!(PointC, tag)); // 8
+    println!("DemoC size: {}", size_of::<DemoC>());       // 常见 64 位目标上是 24
+    println!("DemoRust size: {}", size_of::<DemoRust>()); // 当前编译器可能得到 16
+    println!("DemoC.b offset: {}", offset_of!(DemoC, b));
+    println!("DemoC.c offset: {}", offset_of!(DemoC, c));
+    println!("DemoRust.b offset: {}", offset_of!(DemoRust, b));
+    println!("DemoRust.c offset: {}", offset_of!(DemoRust, c));
 }
 
 unsafe extern "C" {
-    fn add_floats(a: f32, b: f32) -> f32;
+    fn add_bytes(a: u8, b: u8) -> u8;
     // 只声明类型，不调用 —— 没有链接到 C 实现时调用会导致链接错误
 }
 ```
@@ -122,7 +130,8 @@ unsafe extern "C" {
 
 ## 回看问题
 
-- `PointC` 的 `tag` 字段（`u8`）起始 offset 是 8，字段内容结束后实际用到 9 字节，为什么 `size_of` 是 12 而不是 9？
+- 在常见 64 位目标上，`DemoC` 的字段内容只用到前 17 字节，为什么 `size_of` 是 24 而不是 17？
+- 为什么当前编译器可能把字段相同的 `DemoRust` 布局成 16 字节？这个结果可以作为稳定契约吗？
 - 如果不加 `#[repr(C)]`，Rust 是否保证字段按声明顺序排列？
 - `extern "C"` 和 `#[repr(C)]` 分别约束哪一层？
 - 使用 `wasm-bindgen` 把 Rust struct 暴露给 JavaScript 时，JavaScript 是否通常会直接读取该 struct 的字段 offset？
