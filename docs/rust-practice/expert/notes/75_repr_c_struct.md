@@ -5,14 +5,46 @@
 - struct 定义。
 - `std::mem::size_of`。
 
+## 为什么现在学习 FFI
+
+第 68–74 题学习了 unsafe、裸指针、安全约定以及如何缩小 unsafe 范围。本题开始观察这些知识最常见的实际用途之一：Rust 与其他语言或外部二进制代码交互，也就是 FFI。
+
+跨语言交互时，边界两侧可能需要调用对方的函数，或者按照相同方式解释一段内存。为此，双方必须约定：
+
+- 函数如何传递参数和返回值。
+- 数据的字段顺序、大小、对齐和 padding。
+
+本题只学习这类边界的类型和布局，不会真正编译或链接 C 代码。`extern "C"` 用来展示函数调用边界，`#[repr(C)]` 用来展示数据布局边界；完整的 FFI 工程实践不在本题范围内。
+
 ## 核心结论
 
 - 默认情况下 Rust 编译器可以自由重排 struct 字段以优化布局，不保证顺序。
-- `#[repr(C)]` 强制按 C ABI 规则布局：字段顺序与声明顺序一致，对齐遵循 C 规则。
-- FFI 边界的类型**必须**使用 `#[repr(C)]`，否则 Rust 侧和 C 侧读到的字段可能不一样。
+- `#[repr(C)]` 按当前编译目标的 C ABI 布局数据：字段顺序与声明顺序一致，并按字段对齐要求插入 padding。
+- 当 FFI 两侧要按照 C struct 的字段 offset 直接解释同一段内存时，Rust 类型应使用 `#[repr(C)]`。
 - `unsafe extern "C" { fn foo(...) }` 只是告诉编译器"有这么一个函数存在，签名如此"——链接时才会真正找它。
 
 ## 需要补充看懂的知识
+
+### FFI、ABI 和 `repr(C)` 分别是什么
+
+FFI 是 Foreign Function Interface（外部函数接口），指一种语言调用另一种语言编译出的函数、交换数据的边界。这里的“外部”不只指 C；只是很多语言都能提供 C 接口，所以 C ABI 经常被用作不同语言之间的公共边界。
+
+ABI 是 Application Binary Interface（二进制接口），约定已经编译好的代码如何协作，例如：
+
+- 函数参数和返回值如何传递。
+- 函数符号如何命名和链接。
+- 数据在内存中的大小、对齐和布局。
+
+`extern "C"` 选择的是函数调用层面的 C ABI，`#[repr(C)]` 选择的是类型布局层面的 C representation。两者解决的问题不同：前者管“函数怎么调用”，后者管“数据在内存里是什么样”。
+
+`#[repr(C)]` 也不只是“改成 C 的对齐方式”。以 struct 为例，它共同确定：
+
+- 字段保持声明顺序。
+- 每个字段的起始 offset 满足该字段的 alignment。
+- 字段之间需要插入多少 padding。
+- struct 自身的 alignment 和尾部 padding。
+
+这些结果仍与编译目标有关。同一个 `#[repr(C)]` 类型在 `x86_64` 和 `wasm32` 上不一定具有相同大小，因此不能把它理解成一套跨所有平台都固定不变的字节格式。
 
 ### `size_of` 不等于字段大小简单相加
 
@@ -39,6 +71,20 @@ struct 的大小要同时满足两个条件：
 
 例如 `String`、`Vec<T>`、`Option<String>` 这类类型即使放进 `repr(C)` struct，C 侧也不知道它们的内部约定。FFI 边界应优先使用 C ABI 能表达的字段，例如整数、浮点、裸指针、长度、或其他 `repr(C)` 类型。
 
+“FFI 类型必须使用 `repr(C)`”只适用于双方要按 C struct 布局直接解释同一段内存的情况。只传递普通数值、通过不透明指针操作对象，或者先把数据序列化，都不要求暴露 Rust struct 的字段布局。
+
+### 其他语言以及 Wasm/JavaScript 怎么处理布局
+
+跨语言交互的关键不是所有语言采用同一种对齐方式，而是边界两侧遵守同一份协议。常见方案有：
+
+1. 双方采用 C ABI：Rust 使用 `extern "C"` 和必要的 `#[repr(C)]`，另一种语言通过自己的 C FFI 与之对应。
+2. 使用绑定生成器或桥接层：桥接代码负责把两边的类型互相转换。
+3. 使用 JSON、Protocol Buffers 等格式序列化数据，不共享进程内 struct 布局。
+
+Rust 编译成 WebAssembly 后交给 JavaScript 调用时，通常使用 `wasm-bindgen`。JavaScript 没有与 Rust struct 对应的原生内存布局；生成的绑定一般把 Rust 对象留在 Wasm 线性内存中，JavaScript 只保存一个不透明的指针，并通过生成的 getter、setter 或方法访问它。因此这种用法通常不需要给导出的 Rust struct 添加 `#[repr(C)]`。
+
+字符串、数组和复杂对象也通常由绑定层转换，或者使用 `serde-wasm-bindgen` 转成 JavaScript 原生值。只有在手动返回 pointer/length，让 JavaScript 通过 `DataView` 或 TypedArray 直接读取 Wasm 线性内存时，才需要显式约定字段 offset、大小和编码；这时可以使用 `#[repr(C)]` 作为布局协议的一部分，但 JavaScript 必须按照这份协议读取，并且不能假设另一个编译目标也具有相同布局。
+
 ### Rust 2024 里 `extern` block 要写 `unsafe`
 
 `unsafe extern "C" { ... }` 的 `unsafe` 表示：这些外部函数的声明正确性无法由 Rust 编译器验证，写声明的人要负责保证签名、ABI、链接名称和真实 C 实现一致。
@@ -56,7 +102,7 @@ struct PointRust { x: f32, y: f32, tag: u8 }
 
 fn main() {
     println!("PointC  size: {}", size_of::<PointC>());   // 通常 12（对齐到 4）
-    println!("PointRust size: {}", size_of::<PointRust>()); // 可能也是 12，或 9
+    println!("PointRust size: {}", size_of::<PointRust>()); // 本例通常也是 12，但字段 offset 不保证相同
     println!("tag offset in PointC: {}", offset_of!(PointC, tag)); // 8
 }
 
@@ -69,6 +115,8 @@ unsafe extern "C" {
 ## 常见坑
 
 - 以为 Rust 默认 struct 的内存布局"和 C 差不多"——不保证，不能依赖。
+- 以为 `repr(C)` 会生成跨所有 CPU 和操作系统都相同的字节格式——它仍取决于当前编译目标的类型大小和对齐。
+- 以为只要跨语言就必须给所有 struct 加 `repr(C)`——使用绑定转换、序列化或不透明指针时，并不共享字段布局。
 - `extern "C"` 块声明了函数但没有链接到实现，调用时会产生链接错误，不是运行时 panic。
 - `#[repr(C)]` 和 `#[repr(packed)]` 不一样：packed 会去掉 padding，可能导致未对齐访问。
 
@@ -76,3 +124,5 @@ unsafe extern "C" {
 
 - `PointC` 的 `tag` 字段（`u8`）起始 offset 是 8，字段内容结束后实际用到 9 字节，为什么 `size_of` 是 12 而不是 9？
 - 如果不加 `#[repr(C)]`，Rust 是否保证字段按声明顺序排列？
+- `extern "C"` 和 `#[repr(C)]` 分别约束哪一层？
+- 使用 `wasm-bindgen` 把 Rust struct 暴露给 JavaScript 时，JavaScript 是否通常会直接读取该 struct 的字段 offset？
